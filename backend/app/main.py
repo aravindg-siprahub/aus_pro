@@ -8,6 +8,12 @@ from app.services.health import check_database
 app = FastAPI(title="Atelier Nine backend", docs_url=None, redoc_url=None)
 
 
+@app.get("/healthz")
+def healthz():
+    """Liveness for the host's health check: answers while the server runs, independent of the database."""
+    return {"ok": True}
+
+
 @app.get("/health/db")
 def health_db(db: Session = Depends(get_db)):
     """Liveness for the database only. Returns no connection details."""
