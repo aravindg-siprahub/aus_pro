@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ───────────── Design tokens ───────────── */
+@theme {
+  /* Warm neutrals: a paper-white base, soft stone greys and near-black ink */
+  --color-ink: #181716;
+  --color-ink-2: #3d3b38;
+  --color-mute: #76726c;
+  --color-line: #dcd8d1;
+  --color-line-soft: #ebe8e3;
+  --color-soft: #f1efeb;
+  --color-canvas: #faf9f7;
+  --color-night: #141312;
+  --color-accent: #a8532d;
+  --color-link: #181716;
+  --color-danger: #c0362c;
+  --color-success: #2f7d4f;
+
+  --font-sans: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius-pill: 999px;
+  /* One tile radius across the site: soft, not bubbly */
+  --radius-tile: 1.125rem;
+}
+
+/* Sticky elements sit under the header and follow it when it hides (see Header).
+   Below md the header has a second row of section tabs (2.75rem). */
+:root { --header-h: 6.25rem; --sticky-top: var(--header-h); }
+@media (min-width: 640px) { :root { --header-h: 6.75rem; } }
+@media (min-width: 768px) { :root { --header-h: 4rem; } }
+html[data-header="hidden"] { --sticky-top: 0px; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: #fff;
+}
+
+/* Focus: one consistent, visible ring. In the base layer so utilities can override it. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+}
+
+/* Type scale */
+.display-xl {
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+.display-lg {
+  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+.display-md {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+.display-2xl {
+  font-size: clamp(3.25rem, 11vw, 9.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+}
+.lead {
+  font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--color-mute);
+}
+
+.display-2xl, .display-xl, .display-lg, .display-md { text-wrap: balance; }
+.lead { text-wrap: pretty; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+/* A print settling onto fabric: used when the hero's sample phrase changes */
+@keyframes print-in {
+  /* The `translate` property, matching Tailwind v4's -translate-* utilities, so offsets don't stack */
+  from { opacity: 0; translate: -50% -38%; }
+  to { opacity: 1; translate: -50% -50%; }
+}
+.print-in { animation: print-in 0.55s var(--ease-premium) both; }
+@media (prefers-reduced-motion: reduce) { .print-in { animation: none; } }
+
+.skeleton {
+  background: linear-gradient(90deg, #ebe8e3 25%, #f5f3ef 50%, #ebe8e3 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Understated link: ink text with an underline that draws in on hover */
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.45s var(--ease-premium);
+  padding-bottom: 1px;
+}
+.link-draw:hover,
+.link-draw:focus-visible,
+.group:hover .link-draw {
+  background-size: 100% 1px;
+}
+
+
+
+/* Leave room above a visible mobile dock so it never covers the footer */
+@media (max-width: 1023px) {
+  body:has([data-dock="on"]) footer { padding-bottom: 5.5rem; }
+}
+
+/* The one product shadow: a soft contact shadow, never a glow */
+.shadow-product { filter: drop-shadow(0 22px 26px rgb(24 23 22 / 0.13)); }

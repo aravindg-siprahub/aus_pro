@@ -1,0 +1,33 @@
+# Secrets: never commit real credentials. Only .env.example (placeholders) is tracked.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+npm-debug.log*
+coverage/
+
+# Python backend (backend/)
+backend/.venv/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor, OS and tool-local files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.claude/
+*.log
