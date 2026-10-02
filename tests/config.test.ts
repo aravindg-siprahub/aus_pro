@@ -7,6 +7,12 @@ test("auto mode: no Shopify variables → mock", () => {
   assert.equal(resolveProviderMode({}), "mock");
 });
 
+test("auto mode in production: never falls back to mock; a missing setting is a config error", () => {
+  assert.equal(resolveProviderMode({ NODE_ENV: "production" }), "shopify");
+  assert.throws(() => getShopifyConfig({ NODE_ENV: "production" }), ConfigError);
+  assert.equal(resolveProviderMode({ NODE_ENV: "production", COMMERCE_PROVIDER: "mock" }), "mock", "explicit opt-in still works");
+});
+
 test("auto mode: any Shopify variable → shopify, and a partial set is a clear error", () => {
   const env = { SHOPIFY_SHOP_DOMAIN: FAKE.domain, SHOPIFY_CLIENT_SECRET: FAKE.clientSecret };
   assert.equal(resolveProviderMode(env), "shopify");

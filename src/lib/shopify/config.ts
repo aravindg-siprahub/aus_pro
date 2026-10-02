@@ -41,6 +41,9 @@ export function resolveProviderMode(env: Env = process.env): ProviderMode {
   if (requested === "shopify") return "shopify";
   // auto: any Shopify variable present means the operator intends Shopify, and a partial
   // set is reported as an error by getShopifyConfig() rather than silently using mock data.
+  // In production there is no demo fallback at all: a live store missing its settings must fail loudly, not
+  // quietly serve sample products. (Demo mode there needs an explicit COMMERCE_PROVIDER=mock.)
+  if (env.NODE_ENV === "production") return "shopify";
   return REQUIRED.some((k) => env[k]?.trim()) ? "shopify" : "mock";
 }
 
