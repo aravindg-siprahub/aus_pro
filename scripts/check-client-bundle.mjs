@@ -10,6 +10,8 @@ const FORBIDDEN = [
   "SHOPIFY_SHOP_DOMAIN",
   "ADMIN_PASSWORD",
   "atelier-admin-password-check",
+  "AUTHENTICITY_SECRET",
+  "atelier-serial-v1",
   "client_credentials",
   "X-Shopify-Access-Token",
   "admin/oauth/access_token",

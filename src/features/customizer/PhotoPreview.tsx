@@ -82,7 +82,7 @@ export function PhotoPreview({ src, alt, design, view }: { src: string; alt: str
             const map: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
             if (map[e.key]) { e.preventDefault(); nudge(...map[e.key]); }
           }}
-          className={`absolute w-[60%] -translate-x-1/2 -translate-y-1/2 touch-none select-none break-words rounded-md text-center leading-[1.05] outline-offset-4 ${dragging ? "cursor-grabbing" : "cursor-grab"} hover:outline hover:outline-1 hover:outline-dashed hover:outline-white/70`}
+          className={`absolute w-[60%] -translate-x-1/2 -translate-y-1/2 touch-none select-none break-words rounded-ui text-center leading-[1.05] outline-offset-4 focus-visible:outline-white ${dragging ? "cursor-grabbing outline outline-1 outline-dashed outline-white/70" : "cursor-grab"} hover:outline hover:outline-1 hover:outline-dashed hover:outline-white/70`}
           style={{
             left: `${pos.x * 100}%`,
             top: `${pos.y * 100}%`,
@@ -96,14 +96,14 @@ export function PhotoPreview({ src, alt, design, view }: { src: string; alt: str
         >
           {text}
         </p>
-        <p className="pointer-events-none absolute left-1/2 top-16 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/45 px-3 py-1 text-[12px] text-white backdrop-blur-sm sm:top-20">
+        <p className="pointer-events-none absolute left-1/2 top-[4.25rem] -translate-x-1/2 whitespace-nowrap rounded-ui bg-black/55 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-white sm:top-20">
           Drag the text onto the garment
         </p>
         </>
       )}
 
       {text && !onThisSide && (
-        <p className="absolute left-1/2 top-1/2 w-max max-w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/55 px-4 py-2 text-center text-[13px] text-white backdrop-blur-sm">
+        <p className="absolute left-1/2 top-1/2 w-max max-w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-ui bg-black/55 px-4 py-2.5 text-center text-[13px] leading-snug text-white">
           {design.location === "back" || design.location === "front"
             ? `Printed on the ${locationLabel(design.location).toLowerCase()}. Switch to ${locationLabel(design.location)} to see it.`
             : `Printed on the ${locationLabel(design.location).toLowerCase()}, scaled to fit the sleeve.`}

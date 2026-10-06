@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { loadAdmin } from "@/lib/admin/load";
 import { getOrder } from "@/lib/shopify/admin/service";
 import { formatDateTime, formatMoney } from "@/components/admin/format";
+import { authenticityKeyOrNull } from "@/lib/authenticity/key";
+import { issueSerial } from "@/lib/authenticity/serial";
 import { Badge, FulfillmentBadge, PageTitle, Panel, PaymentBadge, ProblemPanel, Table, Td, Th, Thumb } from "@/components/admin/ui";
 
 export const metadata: Metadata = { title: "Order" };
@@ -21,6 +23,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   }
   const o = result.data;
   if (!o) notFound();
+  // Serial numbers for the print team to stamp: computed here from the order number and line position
+  // (the same lineItems(first: 50) order the verifier reads). No key, no serials.
+  const serialKey = authenticityKeyOrNull();
+  const serialFor = (index: number) => (serialKey ? issueSerial(o.number, index + 1, serialKey) : null);
 
   return (
     <>
@@ -53,6 +59,13 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                           <p className="font-medium">{li.title}</p>
                           {li.variantTitle && <p className="text-[13px] text-mute">{li.variantTitle}</p>}
                           {li.sku && <p className="text-[12px] text-mute">SKU {li.sku}</p>}
+                          {serialFor(i) && (
+                            <p className="mt-2 flex flex-wrap items-baseline gap-x-2 text-[12px]">
+                              <span className="font-medium uppercase tracking-[0.08em] text-mute">Serial</span>
+                              <span className={`break-all font-mono tracking-[0.06em] ${o.cancelled ? "text-mute line-through" : "text-ink"}`}>{serialFor(i)}</span>
+                              {o.cancelled && <span className="text-mute">(void: order cancelled)</span>}
+                            </p>
+                          )}
                           {li.print.length > 0 && (
                             <dl className="mt-2 rounded-lg bg-soft px-3 py-2 text-[13px]">
                               <dt className="mb-1 text-[11px] font-medium uppercase tracking-[0.08em] text-mute">Custom print</dt>
@@ -71,6 +84,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 ))}
               </tbody>
             </Table>
+            {!serialKey && <p className="border-t border-line-soft px-5 py-3 text-[12px] text-mute">Set AUTHENTICITY_SECRET to issue serial numbers.</p>}
             <dl className="ml-auto max-w-xs space-y-1.5 border-t border-line-soft px-5 py-4 text-[14px]">
               <Line k="Subtotal" v={formatMoney(o.subtotal)} />
               <Line k="Shipping" v={formatMoney(o.shipping)} />

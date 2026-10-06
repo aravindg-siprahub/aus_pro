@@ -44,10 +44,9 @@ export function Section({
   );
 }
 
-export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <p className={cn("text-[13px] font-medium uppercase tracking-[0.14em] text-accent", className)}>{children}</p>
-  );
+/** Small tracked capitals above a headline. `accent` uses the gold, for section openers. */
+export function Eyebrow({ children, className, accent = false }: { children: ReactNode; className?: string; accent?: boolean }) {
+  return <p className={cn("eyebrow", accent && "!text-accent", className)}>{children}</p>;
 }
 
 export function PageHeader({
@@ -55,17 +54,20 @@ export function PageHeader({
   title,
   description,
   className,
+  children,
 }: {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   description?: string;
   className?: string;
+  children?: ReactNode;
 }) {
   return (
-    <header className={cn("pt-14 pb-10 sm:pt-20 sm:pb-14", className)}>
-      {eyebrow && <Eyebrow className="mb-3">{eyebrow}</Eyebrow>}
-      <h1 className="display-lg">{title}</h1>
-      {description && <p className="lead mt-4 max-w-xl">{description}</p>}
+    <header className={cn("pb-10 pt-12 sm:pb-14 sm:pt-20", className)}>
+      {eyebrow && <Eyebrow accent className="mb-5">{eyebrow}</Eyebrow>}
+      <h1 className="display-lg max-w-[16ch]">{title}</h1>
+      {description && <p className="lead mt-5 max-w-xl">{description}</p>}
+      {children}
     </header>
   );
 }

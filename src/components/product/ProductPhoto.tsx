@@ -5,17 +5,16 @@ import { useState } from "react";
 import type { PhotoView, Product, ProductColor, ProductImage } from "@/types/commerce";
 import { cn } from "@/lib/cn";
 
-/** Shown when a Shopify product has no photos yet. Deliberately not a stand-in garment: it says what it is. */
+/**
+ * Shown when a Shopify product has no photos yet. Deliberately not a stand-in garment: it says what it is,
+ * quietly, as a caption on the tile.
+ */
 export function NoPhoto({ name, className }: { name: string; className?: string }) {
   return (
     <div className={cn("absolute inset-0 grid place-items-center p-6 text-center", className)} role="img" aria-label={`${name}: no photo yet`}>
-      <div>
-        <svg aria-hidden viewBox="0 0 24 24" className="mx-auto h-7 w-7 text-mute/60" fill="none" stroke="currentColor" strokeWidth="1.4">
-          <rect x="3" y="5" width="18" height="14" rx="2.5" />
-          <circle cx="9" cy="10" r="1.6" />
-          <path d="m4 17 5-4.5 4 3.5 3-2.5 4 3.5" strokeLinejoin="round" />
-        </svg>
-        <p className="mt-2 text-[13px] text-mute">Photo coming soon</p>
+      <div aria-hidden>
+        <span className="mx-auto block h-px w-8 bg-line" />
+        <p className="eyebrow mt-4">Photograph to follow</p>
       </div>
     </div>
   );

@@ -10,9 +10,9 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: P
   const { next } = await searchParams;
   const access = adminAccess();
   return (
-    <main className="grid min-h-screen place-items-center bg-canvas px-4">
+    <main data-theme="light" className="grid min-h-screen place-items-center bg-canvas px-4">
       <div className="w-full max-w-[360px]">
-        <p className="text-[13px] font-medium uppercase tracking-[0.14em] text-mute">Atelier Nine</p>
+        <p className="text-[13px] font-medium uppercase tracking-[0.14em] text-mute">WAHAU</p>
         <h1 className="mt-2 text-[26px] font-semibold tracking-[-0.02em]">Admin sign in</h1>
         {access === "ready" ? (
           <LoginForm next={safeNextPath(next)} />

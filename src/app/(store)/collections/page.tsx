@@ -43,7 +43,7 @@ export default async function CollectionsPage() {
                     <p className="lead mt-3">{c.tagline}</p>
                     <p className="mt-8 inline-flex items-center gap-3 text-[15px] font-medium">
                       <span className="link-draw">Shop {count} {count === 1 ? "style" : "styles"}</span>
-                      <span aria-hidden className="grid h-9 w-9 place-items-center rounded-full bg-ink text-white transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1">→</span>
+                      <span aria-hidden className="grid h-9 w-9 place-items-center rounded-full bg-ink text-on-ink transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1">→</span>
                     </p>
                   </div>
                   <div className={cn("relative h-72 overflow-hidden sm:h-96 md:h-full", flip && "md:order-1")}>

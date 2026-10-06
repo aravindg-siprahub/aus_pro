@@ -214,8 +214,8 @@ export class ShopifyCommerceProvider implements CommerceProvider {
       email: req.shipping.email,
       shippingAddress: shippingAddressInput(req.shipping),
       tags: ["atelier-nine"],
-      note: "Created from the Atelier Nine web storefront.",
-      customAttributes: [{ key: "Source", value: "Atelier Nine web" }],
+      note: "Created from the WAHAU web storefront.",
+      customAttributes: [{ key: "Source", value: "WAHAU web" }],
       lineItems: lines.map((l) => ({
         variantId: l.variantId,
         quantity: l.quantity,

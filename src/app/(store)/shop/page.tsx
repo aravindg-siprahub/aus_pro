@@ -13,7 +13,12 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
 
   return (
     <Container size="wide">
-      <PageHeader eyebrow="Shop" title="Every piece, ready for your idea." description="Four silhouettes, thoughtfully made. Choose one and make it yours." />
+      <PageHeader
+        eyebrow="Shop"
+        title={<>The <em>collection</em></>}
+        description="Considered essentials, cut for everyday wear and printed to order. Choose a piece, then make it yours."
+        className="pb-12 sm:pb-16 lg:pt-28"
+      />
       <ShopGrid products={products} categories={categories} initialCategory={initial} />
     </Container>
   );

@@ -20,7 +20,7 @@ interface Item {
 }
 
 const items: Item[] = [
-  { loc: "front", label: "Front", text: "Atelier", fontId: "sans", view: "front", slot: "place-front", spot: { x: 0.5, y: 0.5, size: 7 } },
+  { loc: "front", label: "Front", text: "Wahau", fontId: "sans", view: "front", slot: "place-front", spot: { x: 0.5, y: 0.5, size: 7 } },
   { loc: "back", label: "Back", text: "Est. 2026", fontId: "serif", view: "back", slot: "place-back", spot: { x: 0.5, y: 0.34, size: 8 } },
   { loc: "left-sleeve", label: "Left sleeve", text: "N°9", fontId: "serif", view: "front", slot: "place-sleeve", spot: { x: 0.31, y: 0.6, size: 4.6, rotate: -8 } },
   { loc: "right-sleeve", label: "Right sleeve", text: "Yours", fontId: "script", view: "front", slot: "place-sleeve", spot: { x: 0.69, y: 0.6, size: 4.6, rotate: 8 }, mirror: true },

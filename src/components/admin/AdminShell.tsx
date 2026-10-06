@@ -59,14 +59,15 @@ export function AdminShell({ children, storeName }: { children: ReactNode; store
   );
 
   return (
-    <div className="min-h-screen bg-canvas lg:grid lg:grid-cols-[232px_minmax(0,1fr)]">
+    // The admin is always light, whatever theme the storefront visitor chose.
+    <div data-theme="light" className="min-h-screen bg-canvas lg:grid lg:grid-cols-[232px_minmax(0,1fr)]">
       <a href="#admin-main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-ink focus:px-3 focus:py-2 focus:text-white">Skip to content</a>
 
       {/* Desktop sidebar */}
       <aside className="hidden border-r border-line-soft bg-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:px-3 lg:py-4">
         <div>
           <div className="mb-5 px-3">
-            <p className="text-[15px] font-semibold tracking-[-0.01em]">Atelier Nine</p>
+            <p className="text-[15px] font-semibold tracking-[-0.01em]">WAHAU</p>
             <p className="truncate text-[12px] text-mute" title={storeName}>{storeName}</p>
           </div>
           {nav}
@@ -77,7 +78,7 @@ export function AdminShell({ children, storeName }: { children: ReactNode; store
       {/* Mobile bar */}
       <div className="sticky top-0 z-30 border-b border-line-soft bg-white lg:hidden">
         <div className="flex h-12 items-center justify-between px-4">
-          <p className="text-[15px] font-semibold">Atelier Nine <span className="font-normal text-mute">Admin</span></p>
+          <p className="text-[15px] font-semibold">WAHAU <span className="font-normal text-mute">Admin</span></p>
           <button onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="admin-menu" className="rounded-lg px-3 py-1.5 text-[14px] hover:bg-soft">
             {open ? "Close" : "Menu"}
           </button>

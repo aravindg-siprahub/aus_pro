@@ -12,16 +12,26 @@ export function customizationRows(c: Customization) {
   ];
 }
 
+/**
+ * The print details as a definition list. Full: hairline-separated rows, label left and value right.
+ * Compact (bag, checkout, order lines): quiet "Label  Value" lines.
+ */
 export function CustomizationSummary({ customization, compact, className }: { customization: Customization; compact?: boolean; className?: string }) {
   const rows = customizationRows(customization);
   return (
-    <dl className={cn("grid gap-x-6 text-[14px]", compact ? "grid-cols-1 gap-y-0.5" : "gap-y-2.5", className)}>
+    <dl className={cn("grid", compact ? "gap-y-1 text-[13px]" : "text-[14px]", className)}>
       {rows.map((r) => (
-        <div key={r.k} className={cn("flex items-center", compact ? "gap-2" : "justify-between border-b border-line-soft pb-2.5 last:border-0 last:pb-0")}>
-          <dt className="text-mute">{r.k}{compact && ":"}</dt>
-          <dd className="flex items-center gap-2 font-medium text-ink">
-            {r.swatch && <span className="h-3 w-3 rounded-full ring-1 ring-inset ring-black/20" style={{ background: r.swatch }} />}
-            {r.v}
+        <div
+          key={r.k}
+          className={cn(
+            "flex min-w-0",
+            compact ? "items-baseline gap-3" : "items-center justify-between gap-6 border-b border-line-soft py-3 first:pt-0 last:border-0 last:pb-0",
+          )}
+        >
+          <dt className={cn("shrink-0 text-mute", compact && "w-[5.5rem]")}>{r.k}</dt>
+          <dd className={cn("flex min-w-0 items-center gap-2 text-ink", compact ? "" : "font-medium")}>
+            {r.swatch && <span aria-hidden className="h-2.5 w-2.5 shrink-0 rounded-full ring-1 ring-inset ring-ink/25" style={{ background: r.swatch }} />}
+            <span className="min-w-0 break-words">{r.v}</span>
           </dd>
         </div>
       ))}

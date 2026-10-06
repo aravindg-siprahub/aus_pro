@@ -8,20 +8,22 @@ type Variant = "primary" | "secondary" | "ghost" | "light";
 type Size = "md" | "lg" | "sm";
 
 const base =
-  "relative inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-[-0.01em] whitespace-nowrap select-none " +
-  "transition-[background-color,color,transform,box-shadow,opacity] duration-300 ease-[var(--ease-premium)] " +
-  "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
+  "relative inline-flex items-center justify-center gap-2 rounded-ui font-medium tracking-[0.01em] whitespace-nowrap select-none " +
+  "transition-[background-color,color,box-shadow,opacity,transform] duration-300 ease-[var(--ease-premium)] " +
+  "active:scale-[0.985] disabled:pointer-events-none disabled:opacity-40 aria-disabled:opacity-40";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-ink text-white hover:bg-[#3a3a3d]",
-  light: "bg-white text-ink hover:bg-soft",
+  /** Solid: warm white on the dark theme, near-black on the light one. */
+  primary: "bg-ink text-on-ink hover:bg-ink/85",
+  /** For use on photographs, whatever the theme. */
+  light: "bg-white text-[#151412] hover:bg-white/85",
   secondary: "bg-transparent text-ink ring-1 ring-inset ring-line hover:ring-ink",
-  ghost: "text-ink hover:bg-black/5",
+  ghost: "text-ink hover:bg-ink/[0.06]",
 };
 const sizes: Record<Size, string> = {
   sm: "h-9 px-4 text-[13px]",
-  md: "h-11 px-6 text-[15px]",
-  lg: "h-14 px-9 text-[17px]",
+  md: "h-11 px-6 text-[14px]",
+  lg: "h-[52px] px-8 text-[15px]",
 };
 
 interface Common {
@@ -69,23 +71,24 @@ export function ButtonLink({
   size = "md",
   className,
   children,
-}: Common & { href: string }) {
+  ...rest
+}: Common & { href: string; "aria-label"?: string; "aria-disabled"?: boolean; tabIndex?: number }) {
   return (
-    <Link href={href} className={cn(base, variants[variant], sizes[size], className)}>
+    <Link href={href} className={cn(base, variants[variant], sizes[size], className)} {...rest}>
       {children}
     </Link>
   );
 }
 
-/** Understated text link with a trailing chevron — used for secondary CTAs. */
+/** Understated text link with a trailing arrow, for secondary actions. */
 export function TextLink({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
   return (
     <Link
       href={href}
-      className={cn("group inline-flex items-center gap-1 text-[17px] text-ink font-medium link-draw", className)}
+      className={cn("group inline-flex items-center gap-2 text-[14px] font-medium tracking-[0.01em] text-ink", className)}
     >
-      {children}
-      <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">›</span>
+      <span className="link-draw">{children}</span>
+      <span aria-hidden className="transition-transform duration-300 ease-[var(--ease-premium)] group-hover:translate-x-1">→</span>
     </Link>
   );
 }

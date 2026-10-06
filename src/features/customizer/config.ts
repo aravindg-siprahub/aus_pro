@@ -46,3 +46,18 @@ export const locationLabel = (id: PrintLocation) => LOCATIONS.find((l) => l.id =
 export const colorName = (hex: string) =>
   TEXT_COLORS.find((c) => c.hex.toLowerCase() === hex.toLowerCase())?.name ?? hex;
 export const sizeLabel = (id: PrintSize) => PRINT_SIZES.find((s) => s.id === id)!.label;
+
+/* ── Deep-link parsing ──
+   Query values are untrusted: each helper returns a known option or undefined, never the raw input. */
+const str = (v: unknown) => (typeof v === "string" ? v.trim() : undefined);
+
+export const parseFont = (v: unknown): FontId | undefined => FONTS.find((f) => f.id === str(v))?.id;
+export const parseLocation = (v: unknown): PrintLocation | undefined => LOCATIONS.find((l) => l.id === str(v))?.id;
+export const parsePrintSize = (v: unknown): PrintSize | undefined => PRINT_SIZES.find((s) => s.id === str(v))?.id;
+/** A print colour from the palette, matched case-insensitively ("#FFFFFF" or "ffffff" → "#ffffff"). */
+export const parseInk = (v: unknown): string | undefined => {
+  const s = str(v)?.toLowerCase();
+  if (!s) return undefined;
+  const hex = s.startsWith("#") ? s : `#${s}`;
+  return TEXT_COLORS.find((c) => c.hex.toLowerCase() === hex)?.hex;
+};

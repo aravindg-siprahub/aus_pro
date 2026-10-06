@@ -1,31 +1,76 @@
 @import "tailwindcss";
 
-/* ───────────── Design tokens ───────────── */
-@theme {
-  /* Warm neutrals: a paper-white base, soft stone greys and near-black ink */
-  --color-ink: #181716;
-  --color-ink-2: #3d3b38;
-  --color-mute: #76726c;
-  --color-line: #dcd8d1;
-  --color-line-soft: #ebe8e3;
-  --color-soft: #f1efeb;
-  --color-canvas: #faf9f7;
-  --color-night: #141312;
-  --color-accent: #a8532d;
-  --color-link: #181716;
-  --color-danger: #c0362c;
-  --color-success: #2f7d4f;
+/* ───────────── Design tokens ─────────────
+   Colours are theme variables: utilities like bg-canvas / text-ink resolve per theme, so components never
+   name a raw colour for UI chrome. The dark theme is the default; [data-theme="light"] is the alternative.
+   Any element can carry data-theme to re-scope its subtree (e.g. an always-dark band, or the light admin).
+   `inline` makes utilities read the --t-* variables directly, so a scoped subtree really changes colour
+   (a --color-* variable would be resolved once at :root and inherited unchanged). Custom CSS below uses --t-*. */
+@theme inline {
+  --color-canvas: var(--t-canvas);   /* page background */
+  --color-soft: var(--t-soft);       /* image tiles, quiet panels */
+  --color-surface: var(--t-surface); /* inputs, raised controls */
+  --color-ink: var(--t-ink);         /* primary text, primary button fill */
+  --color-ink-2: var(--t-ink-2);     /* secondary text */
+  --color-mute: var(--t-mute);       /* captions, meta */
+  --color-line: var(--t-line);       /* borders */
+  --color-line-soft: var(--t-line-soft); /* hairlines */
+  --color-accent: var(--t-accent);   /* the gold: eyebrows and small highlights only */
+  --color-on-ink: var(--t-on-ink);   /* text and icons on ink-filled elements */
+  --color-night: var(--t-night);     /* legacy always-dark band; prefer data-theme="dark" scoping */
+  --color-link: var(--t-ink);
+  --color-danger: var(--t-danger);
+  --color-success: var(--t-success);
+}
 
+@theme {
   --font-sans: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-display-face), var(--font-inter), "Helvetica Neue", Arial, sans-serif;
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
   --radius-pill: 999px;
-  /* One tile radius across the site: soft, not bubbly */
-  --radius-tile: 1.125rem;
+  /* Editorial, not bubbly: photos and tiles are near-square, controls barely softened */
+  --radius-tile: 0.125rem;
+  --radius-ui: 0.125rem;
+}
+
+:root,
+[data-theme="dark"] {
+  --t-canvas: #0d0d0c;
+  --t-soft: #171615;
+  --t-surface: #1d1c1a;
+  --t-ink: #f2eee6;
+  --t-ink-2: #c4beb3;
+  --t-mute: #8f897f;
+  --t-line: #34322e;
+  --t-line-soft: #242320;
+  --t-accent: #c9a86a;
+  --t-on-ink: #0d0d0c;
+  --t-night: #131210;
+  --t-danger: #e98b7f;
+  --t-success: #8cc39c;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --t-canvas: #f5f3ee;
+  --t-soft: #ebe8e1;
+  --t-surface: #fcfbf8;
+  --t-ink: #151412;
+  --t-ink-2: #3e3b36;
+  --t-mute: #6f6a62;
+  --t-line: #d6d1c7;
+  --t-line-soft: #e5e1d8;
+  --t-accent: #7d5f2b;
+  --t-on-ink: #f5f3ee;
+  --t-night: #151412;
+  --t-danger: #b3362b;
+  --t-success: #2f7d4f;
+  color-scheme: light;
 }
 
 /* Sticky elements sit under the header and follow it when it hides (see Header).
-   Below md the header has a second row of section tabs (2.75rem). */
+   Below md the header has a second row of section links (2.75rem). */
 :root { --header-h: 6.25rem; --sticky-top: var(--header-h); }
 @media (min-width: 640px) { :root { --header-h: 6.75rem; } }
 @media (min-width: 768px) { :root { --header-h: 4rem; } }
@@ -37,60 +82,67 @@ html {
 }
 
 body {
-  background: var(--color-canvas);
-  color: var(--color-ink);
+  background: var(--t-canvas);
+  color: var(--t-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
+/* A scoped theme sets its own text colour, so a data-theme="dark" band reads correctly inside a light page
+   (give it bg-canvas for its surface). */
+[data-theme]:not(html) {
+  color: var(--t-ink);
+}
+
 ::selection {
-  background: var(--color-ink);
-  color: #fff;
+  background: var(--t-ink);
+  color: var(--t-on-ink);
 }
 
 /* Focus: one consistent, visible ring. In the base layer so utilities can override it. */
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--t-ink);
     outline-offset: 3px;
   }
 }
 
-/* Type scale */
-.display-xl {
-  font-size: clamp(2.75rem, 8vw, 6.5rem);
-  line-height: 1;
-  letter-spacing: -0.035em;
+/* ───────────── Type ─────────────
+   Display: Manrope, a clean wide modern sans, semibold with tight tracking. Emphasis is a quieter tone, not italic.
+   Text: Inter. Labels: small, tracked capitals. */
+.display-2xl,
+.display-xl,
+.display-lg,
+.display-md,
+.display-sm {
+  font-family: var(--font-display);
   font-weight: 600;
+  text-wrap: balance;
 }
-.display-lg {
-  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-}
-.display-md {
-  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-  font-weight: 600;
-}
-.display-2xl {
-  font-size: clamp(3.25rem, 11vw, 9.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.045em;
-  font-weight: 600;
-}
+.display-2xl { font-size: clamp(3.25rem, 10vw, 8.5rem); line-height: 0.95; letter-spacing: -0.045em; }
+.display-xl { font-size: clamp(2.75rem, 7vw, 6.25rem); line-height: 0.98; letter-spacing: -0.04em; }
+.display-lg { font-size: clamp(2.25rem, 5vw, 4.25rem); line-height: 1.02; letter-spacing: -0.035em; }
+.display-md { font-size: clamp(1.75rem, 3.2vw, 2.75rem); line-height: 1.08; letter-spacing: -0.028em; }
+.display-sm { font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.12; letter-spacing: -0.02em; }
+:is(.display-2xl, .display-xl, .display-lg, .display-md, .display-sm) em { font-style: normal; color: var(--t-mute); }
+
 .lead {
-  font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-  color: var(--color-mute);
+  font-size: clamp(1rem, 1.25vw, 1.1875rem);
+  line-height: 1.65;
+  color: var(--t-ink-2);
+  text-wrap: pretty;
 }
 
-.display-2xl, .display-xl, .display-lg, .display-md { text-wrap: balance; }
-.lead { text-wrap: pretty; }
+.eyebrow {
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--t-mute);
+}
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
@@ -103,11 +155,18 @@ body {
   }
 }
 
+/* Theme switch: a short crossfade where the browser supports view transitions (see ThemeProvider). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: var(--ease-premium);
+}
+
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
-/* A print settling onto fabric: used when the hero's sample phrase changes */
+/* A print settling onto fabric: used when a sample phrase changes */
 @keyframes print-in {
   /* The `translate` property, matching Tailwind v4's -translate-* utilities, so offsets don't stack */
   from { opacity: 0; translate: -50% -38%; }
@@ -117,7 +176,7 @@ body {
 @media (prefers-reduced-motion: reduce) { .print-in { animation: none; } }
 
 .skeleton {
-  background: linear-gradient(90deg, #ebe8e3 25%, #f5f3ef 50%, #ebe8e3 75%);
+  background: linear-gradient(90deg, var(--t-soft) 25%, var(--t-line-soft) 50%, var(--t-soft) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;
 }
@@ -137,12 +196,16 @@ body {
   background-size: 100% 1px;
 }
 
-
+/* Native <dialog>: a quiet scrim behind modals */
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.62);
+  backdrop-filter: blur(3px);
+}
 
 /* Leave room above a visible mobile dock so it never covers the footer */
 @media (max-width: 1023px) {
   body:has([data-dock="on"]) footer { padding-bottom: 5.5rem; }
 }
 
-/* The one product shadow: a soft contact shadow, never a glow */
-.shadow-product { filter: drop-shadow(0 22px 26px rgb(24 23 22 / 0.13)); }
+/* The one illustration shadow (demo catalogue drawings only): a soft contact shadow, never a glow */
+.shadow-product { filter: drop-shadow(0 22px 26px rgb(0 0 0 / 0.16)); }

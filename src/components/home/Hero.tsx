@@ -80,7 +80,7 @@ export function Hero({ image, product }: { image?: HomeImage; product?: HeroProd
       <div className="relative mx-auto grid max-w-[1440px] gap-7 px-5 pb-14 pt-6 sm:px-8 sm:pt-10 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-12 lg:grid-rows-[1fr_auto] lg:gap-x-12 lg:gap-y-7 lg:px-12 lg:pb-20 lg:pt-6">
         <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1 lg:self-end">
           <motion.p {...enter(0)} className="text-[13px] font-medium uppercase tracking-[0.18em] text-accent">
-            Atelier Nine · Made to order
+            WAHAU · Made to order
           </motion.p>
           <RevealText
             as="h1"
@@ -89,7 +89,7 @@ export function Hero({ image, product }: { image?: HomeImage; product?: HeroProd
             delay={0.05}
             stagger={0.07}
             parts={["Wear your", { text: "words.", className: "block text-mute" }]}
-            className="mt-4 text-[clamp(3.25rem,6.4vw,6rem)] font-semibold leading-[0.95] tracking-[-0.045em]"
+            className="mt-4 font-display text-[clamp(3.25rem,6.4vw,6rem)] font-semibold leading-[0.95] tracking-[-0.045em]"
           />
           <motion.p {...enter(0.15)} className="lead mt-4 max-w-md sm:mt-5">
             Type it, see it on the shirt, wear it. Premium cotton, printed just for you.
@@ -119,7 +119,7 @@ export function Hero({ image, product }: { image?: HomeImage; product?: HeroProd
               <span className="sr-only" aria-live="polite">Preview: the shirt printed with “{shown.text}”</span>
 
               {/* Glass chips */}
-              <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/70 px-3 py-1.5 text-[12px] font-medium text-ink shadow-sm backdrop-blur-md sm:left-5 sm:top-5">
+              <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/80 px-3 py-1.5 text-[12px] font-medium text-[#151412] shadow-sm backdrop-blur-md sm:left-5 sm:top-5">
                 <span className="relative flex h-2 w-2">
                   {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />}
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
@@ -129,13 +129,13 @@ export function Hero({ image, product }: { image?: HomeImage; product?: HeroProd
               {product && (
                 <Link
                   href={product.href}
-                  className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-2xl bg-white/75 px-4 py-3 shadow-sm backdrop-blur-md transition-colors hover:bg-white/90 sm:bottom-5 sm:left-5 sm:right-auto sm:min-w-[280px]"
+                  className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-2xl bg-white/80 px-4 py-3 text-[#151412] shadow-sm backdrop-blur-md transition-colors hover:bg-white/90 sm:bottom-5 sm:left-5 sm:right-auto sm:min-w-[280px]"
                 >
                   <span className="min-w-0">
-                    <span className="block truncate text-[14px] font-semibold text-ink">{product.name}</span>
-                    <span className="block text-[13px] text-ink-2">{formatPrice(product.price)} · custom print</span>
+                    <span className="block truncate text-[14px] font-semibold">{product.name}</span>
+                    <span className="block text-[13px] text-[#151412]/70">{formatPrice(product.price)} · custom print</span>
                   </span>
-                  <span aria-hidden className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-[13px] text-white">→</span>
+                  <span aria-hidden className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#151412] text-[13px] text-white">→</span>
                 </Link>
               )}
             </div>
@@ -156,7 +156,7 @@ export function Hero({ image, product }: { image?: HomeImage; product?: HeroProd
 
           <motion.div {...enter(0.25)} className="max-w-md">
             <label htmlFor={inputId} className="mb-2 block text-[13px] font-medium text-ink-2">Try your words</label>
-            <div className="group flex items-center gap-2 rounded-full bg-white p-1.5 pl-5 shadow-[0_1px_2px_rgba(0,0,0,0.06),0_8px_24px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.06] transition-shadow focus-within:ring-2 focus-within:ring-ink">
+            <div className="group flex items-center gap-2 rounded-full bg-surface p-1.5 pl-5 ring-1 ring-line transition-shadow focus-within:ring-2 focus-within:ring-ink">
               <input
                 id={inputId}
                 value={text}
@@ -183,7 +183,7 @@ export function Hero({ image, product }: { image?: HomeImage; product?: HeroProd
                   onClick={() => setFont(f)}
                   className={cn(
                     "rounded-full px-3.5 py-1.5 text-[14px] transition-colors duration-300",
-                    font === f ? "bg-ink text-white" : "bg-black/[0.04] text-ink-2 hover:bg-black/[0.08]",
+                    font === f ? "bg-ink text-on-ink" : "bg-ink/[0.06] text-ink-2 hover:bg-ink/[0.1]",
                   )}
                   style={{ fontFamily: fontById(f).family }}
                 >

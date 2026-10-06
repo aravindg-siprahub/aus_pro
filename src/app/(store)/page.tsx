@@ -83,7 +83,7 @@ export default async function HomePage() {
                         return cover ? <Photo src={cover.url} alt={cover.alt} sizes="(min-width: 640px) 50vw, 100vw" /> : <NoPhoto name={c.name} />;
                       })()}
                       {/* Keeps the caption legible over any photo */}
-                      <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-white/90 to-transparent" />
+                      <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-canvas/90 to-transparent" />
                     </div>
                   ) : (
                     <div className="absolute inset-0 grid place-items-center p-[14%] pb-[22%] transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.05]">
@@ -95,7 +95,7 @@ export default async function HomePage() {
                       <h3 className="text-[26px] font-semibold tracking-[-0.03em] sm:text-[32px]">{c.name}</h3>
                       <p className="mt-0.5 text-[15px] text-mute">{c.tagline}</p>
                     </div>
-                    <span aria-hidden className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink text-white transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1">→</span>
+                    <span aria-hidden className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink text-on-ink transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1">→</span>
                   </div>
                 </Link>
               </Reveal>

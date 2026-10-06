@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Checkout" };
 export default function CheckoutPage() {
   return (
     <Container>
-      <PageHeader title="Checkout." />
+      <PageHeader eyebrow="Checkout" title={<>Almost <em>yours</em>.</>} />
       <Checkout />
     </Container>
   );
